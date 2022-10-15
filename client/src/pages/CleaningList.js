@@ -1,0 +1,98 @@
+import React, { useState } from "react";
+
+import "../styles/CleaningList.css";
+import background1 from "../assets/workerslist1.png";
+import background2 from "../assets/workerslist2.png";
+import background3 from "../assets/workerslist3.png";
+import cleaningman from "../assets/workerman.png";
+
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+
+import { Link } from "react-router-dom";
+// import { getDistance } from "geolib";
+// import { useSelector } from "react-redux";
+import { RiStarFill } from "react-icons/ri";
+
+const CleaningList = ({ customer }) => {
+
+  return (
+    <>
+      <Navbar />
+      {/* ------------------------------cleaninglist----------------------------------- */}
+
+      <div className="cleaninglist_section">
+        <div className="cleaninglist_container">
+          <div className="cleaninglist_head">
+            <h1>List of cleaning you can checkout</h1>
+            <div className="cleaninglist_filter">
+              <div
+                type="button"
+                className="btn btn-primary distclass"
+              
+              >
+                Sort By Distance
+              </div>
+              <select
+                className="btn btn-secondary dropdown-toggle"
+                name="Occupation"
+                id="selectOccupation"
+               
+              >
+                <option value="All">All</option>
+                <option value="Plumbing cleaning">Plumbing cleaning</option>
+                <option value="Electric cleaning">Electric cleaning</option>
+                <option value="Mechanic cleaning">Mechanic cleaning</option>
+              </select>
+            </div>            
+          </div> 
+                 
+          <div className="cleaninglist_lists">
+            <div className="row">
+              
+              <div className="col-lg-3 mb-3">
+                <div className="cleaninglist_card">
+                  <div className="card cleaningCard text-white card-has-bg click-col"
+                    style={{  backgroundImage:`url(${background1})` }}
+                  >
+                    <div className="card-img-overlay d-flex flex-column">
+                      <div className="card-body">
+                        <h3>cleaning.name</h3>
+                        <h5>cleaning.occupation</h5>
+                        <h5>cleaning.city</h5>
+                      </div>
+                      <div className="card-footer">
+                        <div className="media">
+                          <img className="mr-3 rounded-circle" src={cleaningman} style={{ maxWidth: "50px" }} />
+                          <div className="media-body">
+                            <h6>Phone : cleaning.phoneNo</h6>
+                            <h6>cleaning.address</h6>
+                            <h5>cleaning.distance km</h5>
+                            <h5>5<RiStarFill /></h5>
+                            <button className="cleaninglist_btn"
+                            
+                            >Send location to cleaning.name
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>                  
+                </div>
+              </div>
+
+
+            </div>            
+          </div>
+        </div>        
+      </div>
+      
+      {/* -------------------------------FOOTER------------------------------------ */}
+
+      <Footer />
+    </>
+  )
+}
+
+export default CleaningList
+
