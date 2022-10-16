@@ -9,10 +9,41 @@ import therapiesman from "../assets/workerman.png";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
+import { Link } from "react-router-dom";
+// import { getDistance } from "geolib";
+// import { useSelector } from "react-redux";
+import { RiStarFill } from "react-icons/ri";
 
+const TherapiesList = ({ customer }) => {
 
-const TherapiesList = () => {
+  // const [check, setcheck] = useState(false);
+  // const locations = useSelector((state) => state.location);
+  // const [therapies, settherapies] = useState(locations);
 
+  //   // -----------------------------------------DISTANCE CALCULATION------------------------------------------------
+  //   locations.map(
+  //     (location) =>
+  //       (location.distance =
+  //         getDistance(
+  //           { latitude: location.latitude, longitude: location.longitude },
+  //           { latitude: customer.latitude, longitude: customer.longitude }
+  //         ) / 1000)
+  //   );
+
+  //   // ----------------------------------------SORTING-----------------------------------------------------
+  //   function compareDistance(a, b) {
+  //     if (a.distance < b.distance) {
+  //       return -1;
+  //     }
+  //     if (a.distance > b.distance) {
+  //       return 1;
+  //     }
+  //     return 0;
+  //   }
+
+  //   const sorttherapiesBydistance = () => {
+  //     settherapies(therapies.sort(compareDistance));
+  //   };
 
 
   return (
@@ -28,7 +59,10 @@ const TherapiesList = () => {
               <div
                 type="button"
                 className="btn btn-primary distclass"
-               
+                // onClick={() => {
+                //   sorttherapiesBydistance();
+                //   setcheck(!check);
+                // }}
               >
                 Sort By Distance
               </div>
@@ -36,7 +70,17 @@ const TherapiesList = () => {
                 className="btn btn-secondary dropdown-toggle"
                 name="Occupation"
                 id="selectOccupation"
-               
+                // onChange={(e) => {
+                //   if (e.target.value !== "All") {
+                //     settherapies(
+                //       locations.filter(
+                //         (therapies) => therapies.occupation === e.target.value
+                //       )
+                //     );
+                //   } else {
+                //     settherapies(locations);
+                //   }
+                // }}
               >
                 <option value="All">All</option>
                 <option value="Plumbing therapies">Plumbing therapies</option>
@@ -69,7 +113,14 @@ const TherapiesList = () => {
                             <h5>therapies.distance km</h5>
                             <h5>5<RiStarFill /></h5>
                             <button className="therapieslist_btn"
-                             
+                              // onClick={() => {
+                              //   fetch(
+                              //     `http://localhost:5000/send-text?recipient=${num}&customer=${customer.userName}&lat=${customer.latitude}&lon=${customer.longitude}`
+                              //   ).catch((err) => console.error(err));
+                              //   alert(
+                              //     `location shared to ${therapies.occupation} ${therapies.name}`
+                              //   );
+                              // }}
                             >Send location to therapies.name
                             </button>
                           </div>

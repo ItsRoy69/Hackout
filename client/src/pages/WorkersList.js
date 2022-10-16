@@ -10,11 +10,112 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 import { Link, useNavigate } from "react-router-dom";
-
+// import { getDistance } from "geolib";
+// import { useSelector } from "react-redux";
+import { RiStarFill } from "react-icons/ri";
+import Axios from 'axios';
+import axios from "axios";
 
 const WorkersList = ({ customer }) => {
 
- 
+  const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [allWorkers, setAllWorkers] = useState("");
+
+  // const [check, setcheck] = useState(false);
+  // const locations = useSelector((state) => state.location);
+  // const [workers, setWorkers] = useState(locations);
+
+  //   // -----------------------------------------DISTANCE CALCULATION------------------------------------------------
+  //   locations.map(
+  //     (location) =>
+  //       (location.distance =
+  //         getDistance(
+  //           { latitude: location.latitude, longitude: location.longitude },
+  //           { latitude: customer.latitude, longitude: customer.longitude }
+  //         ) / 1000)
+  //   );
+
+  //   // ----------------------------------------SORTING-----------------------------------------------------
+  //   function compareDistance(a, b) {
+  //     if (a.distance < b.distance) {
+  //       return -1;
+  //     }
+  //     if (a.distance > b.distance) {
+  //       return 1;
+  //     }
+  //     return 0;
+  //   }
+
+  //   const sortWorkersBydistance = () => {
+  //     setWorkers(workers.sort(compareDistance));
+  //   };
+
+  const handleConnect = async(worker) => {
+    await axios.post(
+      `https://anyhelper.herokuapp.com/chat/create-space`, {
+        admin : user.email,
+        members : [user.admin|| user.name, worker.name],
+        spaceName : worker.email,
+        chatPic : "https://www.lifehacker.com.au/2020/05/everything-you-can-and-cant-do-with-facebooks-new-avatars/",
+        chatHead: worker.name
+      }).then((res) => {
+        console.log("Space Created");
+        navigate('/chatbox');
+      }).catch((err) => {
+        console.error(err)
+        alert("You are already connected to this user.");
+        navigate('/chatbox');
+      });
+  }
+
+  const handleCustomerConnect = async(worker) => {
+    await axios.post(
+      `https://anyhelper.herokuapp.com/chat/create-space`, {
+        admin : user.email,
+        members : [user.admin|| user.name, worker.name],
+        spaceName : worker.email,
+        chatPic : "https://www.lifehacker.com.au/2020/05/everything-you-can-and-cant-do-with-facebooks-new-avatars/",
+        chatHead: worker.name
+      }).then((res) => {
+        console.log("Space Created");
+        axios.post('https://anyhelper.herokuapp.com/customers/create-order',{
+          name : user.name,
+          email : user.email,
+          address : user.address,
+          workerEmail : worker.email
+        })
+        .then((response) => {
+          console.log(response);
+          navigate('/chatbox');
+        }).catch((e) => {
+          console.log(e);
+        })
+        
+      }).catch((err) => {
+        console.error(err)
+        alert("You are already connected to this user.");
+        navigate('/chatbox');
+      });
+  }
+
+  const type = localStorage.getItem("type");
+
+    const getAllWorkers = async () => {
+    await Axios.get(`https://anyhelper.herokuapp.com/workers/get-all-workers`).then((res) => {
+      setAllWorkers(res.data);
+    }).catch((e) => {
+      console.log(e);
+    });
+  };
+
+  console.log(allWorkers);
+
+  useEffect(() => {
+    getAllWorkers();
+  },[])
+
   return (
     <>
       <Navbar />
@@ -28,7 +129,10 @@ const WorkersList = ({ customer }) => {
               <div
                 type="button"
                 className="btn btn-primary distclass"
-              
+                // onClick={() => {
+                //   sortWorkersBydistance();
+                //   setcheck(!check);
+                // }}
               >
                 Sort By Distance
               </div>
@@ -36,6 +140,17 @@ const WorkersList = ({ customer }) => {
                 className="btn btn-secondary dropdown-toggle"
                 name="Occupation"
                 id="selectOccupation"
+                // onChange={(e) => {
+                //   if (e.target.value !== "All") {
+                //     setWorkers(
+                //       locations.filter(
+                //         (worker) => worker.occupation === e.target.value
+                //       )
+                //     );
+                //   } else {
+                //     setWorkers(locations);
+                //   }
+                // }}
               >
                 <option value="All">All</option>
                 <option value="Plumbing workers">Plumbing workers</option>
@@ -66,15 +181,15 @@ const WorkersList = ({ customer }) => {
                         <div className="media">
                           <img className="mr-3 rounded-circle" src={workerman} style={{ maxWidth: "50px" }} />
                           <div className="media-body">
-                            <h6>Phone : worker.phone</h6>
-                            <h6>worker.address</h6>
+                            <h6>Phone : {worker.phone}</h6>
+                            <h6>{worker.address}</h6>
                             <h5>worker.distance km</h5>
                             <h5>5<RiStarFill /></h5>                           
 
                             {type == 0?
                                     <>                          
                                     <button className="workerlist_btn"
-                                        
+                                        onClick={() => handleConnect(worker)}
                                       >Message
                                       </button>  
                                                          
@@ -82,7 +197,15 @@ const WorkersList = ({ customer }) => {
                                     : 
                                     <>
                                       <button className="workerlist_btn"
-                                       
+                                        // onClick={() => {
+                                        //   fetch(
+                                        //     `http://localhost:5000/send-text?recipient=${num}&customer=${customer.userName}&lat=${customer.latitude}&lon=${customer.longitude}`
+                                        //   ).catch((err) => console.error(err));
+                                        //   alert(
+                                        //     `location shared to ${worker.occupation} ${worker.name}`
+                                        //   );
+                                        // }}
+                                        onClick={() => handleCustomerConnect(worker)}
                                       >Send location to {worker.name}
                                       </button>
                                     </>

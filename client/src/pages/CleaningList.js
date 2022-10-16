@@ -16,6 +16,36 @@ import { RiStarFill } from "react-icons/ri";
 
 const CleaningList = ({ customer }) => {
 
+  // const [check, setcheck] = useState(false);
+  // const locations = useSelector((state) => state.location);
+  // const [cleaning, setcleaning] = useState(locations);
+
+  //   // -----------------------------------------DISTANCE CALCULATION------------------------------------------------
+  //   locations.map(
+  //     (location) =>
+  //       (location.distance =
+  //         getDistance(
+  //           { latitude: location.latitude, longitude: location.longitude },
+  //           { latitude: customer.latitude, longitude: customer.longitude }
+  //         ) / 1000)
+  //   );
+
+  //   // ----------------------------------------SORTING-----------------------------------------------------
+  //   function compareDistance(a, b) {
+  //     if (a.distance < b.distance) {
+  //       return -1;
+  //     }
+  //     if (a.distance > b.distance) {
+  //       return 1;
+  //     }
+  //     return 0;
+  //   }
+
+  //   const sortcleaningBydistance = () => {
+  //     setcleaning(cleaning.sort(compareDistance));
+  //   };
+
+
   return (
     <>
       <Navbar />
@@ -29,7 +59,10 @@ const CleaningList = ({ customer }) => {
               <div
                 type="button"
                 className="btn btn-primary distclass"
-              
+                // onClick={() => {
+                //   sortcleaningBydistance();
+                //   setcheck(!check);
+                // }}
               >
                 Sort By Distance
               </div>
@@ -37,7 +70,17 @@ const CleaningList = ({ customer }) => {
                 className="btn btn-secondary dropdown-toggle"
                 name="Occupation"
                 id="selectOccupation"
-               
+                // onChange={(e) => {
+                //   if (e.target.value !== "All") {
+                //     setcleaning(
+                //       locations.filter(
+                //         (cleaning) => cleaning.occupation === e.target.value
+                //       )
+                //     );
+                //   } else {
+                //     setcleaning(locations);
+                //   }
+                // }}
               >
                 <option value="All">All</option>
                 <option value="Plumbing cleaning">Plumbing cleaning</option>
@@ -70,7 +113,14 @@ const CleaningList = ({ customer }) => {
                             <h5>cleaning.distance km</h5>
                             <h5>5<RiStarFill /></h5>
                             <button className="cleaninglist_btn"
-                            
+                              // onClick={() => {
+                              //   fetch(
+                              //     `http://localhost:5000/send-text?recipient=${num}&customer=${customer.userName}&lat=${customer.latitude}&lon=${customer.longitude}`
+                              //   ).catch((err) => console.error(err));
+                              //   alert(
+                              //     `location shared to ${cleaning.occupation} ${cleaning.name}`
+                              //   );
+                              // }}
                             >Send location to cleaning.name
                             </button>
                           </div>
